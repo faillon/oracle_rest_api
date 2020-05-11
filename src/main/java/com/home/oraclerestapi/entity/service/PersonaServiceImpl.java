@@ -2,12 +2,9 @@ package com.home.oraclerestapi.entity.service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.home.oraclerestapi.entity.PersonaResponse;
 import com.home.oraclerestapi.entity.dao.IPersonaDAO;
 import com.home.oraclerestapi.entity.model.Persona;
 
@@ -28,13 +25,13 @@ public class PersonaServiceImpl implements IPersonaService {
 	}
 
 	@Override
-	public Optional<Persona> obtenerPersona(String rut) {
+	public Persona obtenerPersona(String rut) {
 		try {
-			return personaDao.findById(rut);
+			return personaDao.findById(rut).get();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return Optional.of(new Persona());
+		return new Persona();
 	}
 
 	@Override
@@ -48,17 +45,13 @@ public class PersonaServiceImpl implements IPersonaService {
 	}
 
 	@Override
-	public PersonaResponse actualizarPersona(Persona persona) {
-		boolean existe = personaDao.findById(persona.getRut()).isPresent();
-		PersonaResponse response = new PersonaResponse();
+	public Persona actualizarPersona(Persona persona) {
+		boolean existe = personaDao.findById(persona.getRut()).isPresent();		
 		
 		if(existe) {
-			personaDao.save(persona);
-			response.setPersona(persona);
-			return response;
+			return personaDao.save(persona);
 		}else{
-			response.setMensaje("Persona no existe");
-			return response;
+			return new Persona();
 		}
 	}
 
