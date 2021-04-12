@@ -37,7 +37,6 @@ public class PersonaController {
 	@PostMapping("/personas")
 	public ResponseEntity<Persona> crearPersona(Persona persona) {
 		Persona per = personaService.crearPersona(persona);
-		System.println.out("Hola");
 		return new ResponseEntity<Persona>(per, HttpStatus.CREATED);
 	}
 	
